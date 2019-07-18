@@ -1,0 +1,8 @@
+Server:
+  host: '0.0.0.0'
+  port: 8080
+
+Blog:
+  article_dir: './articles'
+  flush_time: 60 # s
+  title: 'Hello, World'
