@@ -2,4 +2,4 @@
 *.exe
 *.swp
 *.log
-*.md
+articles/*.md
