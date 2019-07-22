@@ -13,6 +13,7 @@ const (
 	HOME   = "templates/home.html"
 	ITEM   = "templates/item.html"
 	FOOTER = "templates/footer.html"
+	ABOUT  = "templates/about.html"
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -57,4 +58,8 @@ func article(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(404)
 	w.Write([]byte("Sorry, page is not found"))
+}
+
+func about(w http.ResponseWriter, r *http.Request) {
+
 }
