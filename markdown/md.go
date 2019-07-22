@@ -1,8 +1,12 @@
 package markdown
 
 import (
+	"io/ioutil"
+	"sort"
 	"strings"
 	"time"
+
+	"gopkg.in/russross/blackfriday.v2"
 )
 
 // Article represent each article in the blog
@@ -13,6 +17,26 @@ type Article struct {
 	Description string
 	Content     string
 	HTML        string
+}
+
+type ArticleList []*Article
+
+func (l ArticleList) Len() int {
+	return len(l)
+}
+
+func (l ArticleList) Less(i, j int) bool {
+	return l[i].Date.Unix() > l[j].Date.Unix()
+}
+
+func (l ArticleList) Swap(i, j int) {
+	l[i], l[j] = l[j], l[i]
+}
+
+func md2html(text string) string {
+	content := []byte(text)
+	res := blackfriday.Run(content)
+	return string(res)
 }
 
 // RetrieveArticle initialize a markdown format article
@@ -42,15 +66,37 @@ func RetrieveArticle(text string) *Article {
 	for _, line := range basicInfoSlice {
 		if strings.HasPrefix(line, "title: ") {
 			res.Title = strings.TrimPrefix(line, "title: ")
-		}
-		if strings.HasPrefix(line, "description: ") {
+		} else if strings.HasPrefix(line, "description: ") {
 			res.Description = strings.TrimPrefix(line, "description: ")
-		}
-		if strings.HasPrefix(line, "date: ") {
+		} else if strings.HasPrefix(line, "date: ") {
 			date := strings.TrimPrefix(line, "date: ")
 			res.Date, _ = time.Parse("2006-01-02", date)
 		}
 	}
 
+	res.HTML = md2html(res.Content)
+
 	return res
+}
+
+// LoadArticles load all articles from specified dir
+func LoadArticles(dirname string) (ArticleList, error) {
+	res := make(ArticleList, 0)
+
+	files, _ := ioutil.ReadDir(dirname)
+	for _, f := range files {
+		content, err := ioutil.ReadFile(dirname + f.Name())
+		if err != nil {
+			return nil, err
+		}
+		article := RetrieveArticle(string(content))
+		if article != nil {
+			res = append(res, article)
+		}
+	}
+
+	// sort articles by date
+	sort.Sort(res)
+
+	return res, nil
 }

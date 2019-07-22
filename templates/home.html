@@ -1,0 +1,16 @@
+{{template "header" .}}
+{{range $i, $v := .ArticleList}}
+<section class="post">
+  <header class="post-header">
+    <h2 class="post-title">{{$v.Title}}</h2>
+  </header>
+  <div class="post-description">
+    <p>
+      {{$v.Description}}
+    </p>
+    <a href="/articles/{{$v.Title}}">  > 查看</a>
+  </div>
+</section>
+<hr class="hr-normal">
+{{end}}
+{{template "footer"}}

@@ -3,6 +3,7 @@ Server:
   port: 8080
 
 Blog:
-  article_dir: './articles'
+  article_dir: 'articles/'
   flush_time: 60 # s
-  title: 'Hello, World'
+  title: 'Chen Lixiang's Blog'
+  author: 'Chen Lixiang'

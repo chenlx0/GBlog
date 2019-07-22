@@ -9,9 +9,15 @@ type Blog struct {
 	articleDir string `yaml:"article_dir"`
 	flushTime  int    `yaml:"flush_time"`
 	title      string `yaml:"title"`
+	author     string `yaml:"author"`
 }
 
 type Conf struct {
 	server Server `yaml:"Server"`
 	blog   Blog   `yaml:"Blog"`
+}
+
+// ReadConfig return specified config file parsed result
+func ReadConfig(path string) *Conf {
+	return nil
 }
