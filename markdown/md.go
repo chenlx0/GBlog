@@ -12,6 +12,7 @@ import (
 // Article represent each article in the blog
 type Article struct {
 	Title       string
+	ID          string
 	Date        time.Time
 	Categories  []string
 	Description string
@@ -71,6 +72,9 @@ func RetrieveArticle(text string) *Article {
 		} else if strings.HasPrefix(line, "date: ") {
 			date := strings.TrimPrefix(line, "date: ")
 			res.Date, _ = time.Parse("2006-01-02", date)
+		} else if strings.HasPrefix(line, "categories") {
+			categoryString := strings.TrimPrefix(line, "categories: ")
+			res.Categories = strings.Split(categoryString, ",")
 		}
 	}
 
@@ -85,11 +89,15 @@ func LoadArticles(dirname string) (ArticleList, error) {
 
 	files, _ := ioutil.ReadDir(dirname)
 	for _, f := range files {
+		if !strings.HasSuffix(f.Name(), ".md") {
+			continue
+		}
 		content, err := ioutil.ReadFile(dirname + f.Name())
 		if err != nil {
 			return nil, err
 		}
 		article := RetrieveArticle(string(content))
+		article.ID = f.Name()
 		if article != nil {
 			res = append(res, article)
 		}

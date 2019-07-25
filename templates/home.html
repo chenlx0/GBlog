@@ -2,15 +2,14 @@
 {{range $i, $v := .ArticleList}}
 <section class="post">
   <header class="post-header">
-    <h2 class="post-title">{{$v.Title}}</h2>
+    <h2 class="post-title"><a href="/articles/{{$v.ID}}" class="title-link">{{$v.Title}}</a></h2>
   </header>
   <div class="post-description">
-    <p>
-      {{$v.Description}}
-    </p>
-    <a href="/articles/{{$v.Title}}">  > 查看</a>
+      <p style="color: gray; font-size: 1rem;">{{$v.Date.Format "2006-01-02"}} </p>
+    <p>{{$v.Description}}</p>
+    <a style="text-decoration: none; color: #60a6d4;" href="/articles/{{$v.ID}}">  Read On --></a>
   </div>
 </section>
-<hr class="hr-normal">
+<hr>
 {{end}}
 {{template "footer"}}

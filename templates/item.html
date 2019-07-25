@@ -1,15 +1,16 @@
 {{template "header" .}}
+<h1>{{.Title}}</h1>
+<p style="color: gray">{{.Date.Format "2006-01-02"}}</p>
+</br>
 {{.HTML}}
 <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/default.min.css" rel="stylesheet">  
 <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>  
 
-<script >hljs.initHighlightingOnLoad();</script>  
+<script >hljs.initHighlightingOnLoad();</script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
   });
 </script>
 <script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
-  
 {{template "footer"}}

@@ -17,10 +17,17 @@ const (
 )
 
 func homePage(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	if path != "/" && path != "" {
+		w.WriteHeader(404)
+		w.Write([]byte("Page not found"))
+		return
+	}
+
 	tmpl, err := template.ParseFiles(HOME, HEADER, FOOTER)
 	if err != nil {
-		w.Write([]byte("Parse template error"))
 		w.WriteHeader(500)
+		w.Write([]byte("Parse template error"))
 		return
 	}
 
@@ -33,8 +40,8 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	}
 	err = tmpl.Execute(w, data)
 	if err != nil {
-		w.Write([]byte("Execute template error"))
 		w.WriteHeader(500)
+		w.Write([]byte("Execute template error"))
 		return
 	}
 }
@@ -42,15 +49,15 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 func article(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles(ITEM, HEADER, FOOTER)
 	if err != nil {
-		w.Write([]byte("Parse template error"))
 		w.WriteHeader(500)
+		w.Write([]byte("Parse template error"))
 		return
 	}
 
 	paths := strings.Split(r.URL.Path, "/")
-	articleTitle := paths[len(paths)-1]
+	articleID := paths[len(paths)-1]
 	for _, v := range articleCache {
-		if v.Title == articleTitle {
+		if v.ID == articleID {
 			tmpl.Execute(w, v)
 			return
 		}
@@ -61,5 +68,16 @@ func article(w http.ResponseWriter, r *http.Request) {
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles(ITEM, HEADER, FOOTER)
+	if err != nil {
+		w.WriteHeader(500)
+		w.Write([]byte("Parse template error"))
+		return
+	}
 
+	err = tmpl.Execute(w, *aboutPage)
+	if err != nil {
+		w.WriteHeader(500)
+		w.Write([]byte("Execute template error"))
+	}
 }
