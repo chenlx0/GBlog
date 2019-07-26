@@ -1,9 +1,8 @@
 Server:
-  host: '0.0.0.0'
+  host: 0.0.0.0
   port: 8080
 
 Blog:
-  article_dir: 'articles/'
-  flush_time: 60 # s
-  title: 'Chen Lixiang's Blog'
-  author: 'Chen Lixiang'
+  article_dir: articles/
+  title: Chen Lixiang's Blog
+  author: Chen Lixiang

@@ -1,23 +1,38 @@
 package config
 
+import (
+	"io/ioutil"
+
+	"gopkg.in/yaml.v2"
+)
+
 type Server struct {
-	host string `yaml:"host"`
-	port int    `yaml:"port"`
+	Host string `yaml:"host"`
+	Port int    `yaml:"port"`
 }
 
 type Blog struct {
-	articleDir string `yaml:"article_dir"`
-	flushTime  int    `yaml:"flush_time"`
-	title      string `yaml:"title"`
-	author     string `yaml:"author"`
+	ArticleDir string `yaml:"article_dir"`
+	Title      string `yaml:"title"`
+	Author     string `yaml:"author"`
 }
 
-type Conf struct {
-	server Server `yaml:"Server"`
-	blog   Blog   `yaml:"Blog"`
+type Config struct {
+	Server Server `yaml:"Server"`
+	Blog   Blog   `yaml:"Blog"`
 }
 
-// ReadConfig return specified config file parsed result
-func ReadConfig(path string) *Conf {
-	return nil
+func FromYamlFile(path string) (*Config, error) {
+	c := &Config{}
+
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := yaml.Unmarshal(data, c); err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }

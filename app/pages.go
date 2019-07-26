@@ -35,7 +35,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 		Title       string
 		ArticleList markdown.ArticleList
 	}{
-		Title:       "俺的博客",
+		Title:       globalConf.Blog.Title,
 		ArticleList: articleCache,
 	}
 	err = tmpl.Execute(w, data)
