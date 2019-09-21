@@ -13,3 +13,6 @@ TODO:
 * Categories support
 
 * Comment support
+
+* Paging support
+
